@@ -6,14 +6,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import io.socket.IOAcknowledge;
-import io.socket.IOCallback;
-import io.socket.SocketIO;
-import io.socket.SocketIOException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
+
+import io.socket.IOAcknowledge;
+import io.socket.IOCallback;
+import io.socket.SocketIO;
+import io.socket.SocketIOException;
 
 public class MainActivity extends Activity {
     private final String TAG = "JRPG";
