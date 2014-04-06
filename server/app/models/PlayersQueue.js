@@ -8,11 +8,13 @@ module.exports = {
 
     queue: [],
 
-    push: function (req) {
-        this.queue.push();
-    },
+    push: function (player, callback) {
+        this.queue.push(player);
 
-    pop: function (req) {
-
+        if (this.queue.length > 1) {
+            var player1 = this.queue.pop();
+            var player2 = this.queue.pop();
+            return callback(player1, player2);
+        }
     }
 }

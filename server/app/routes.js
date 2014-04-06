@@ -4,24 +4,9 @@
  * Time: 1:05 PM
  */
 
+var gameController = require('./controllers/GameController');
+
 module.exports = function (app) {
 
-    /*app.get('/', function (req, res) {
-        console.log(req.body);
-        res.send('It works!');
-    });*/
-
-    app.io.route('*', function (req) {
-        console.log('here');
-        req.io.emit('hello', {
-            message: 'Hello, client!'
-        });
-    });
-
-    app.io.route('test', function (req) {
-        console.log('test');
-        req.io.emit('hello', {
-            message: 'Test client!'
-        });
-    });
+    app.io.route('find', gameController.find);
 }
