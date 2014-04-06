@@ -123,7 +123,7 @@ public class MainActivity extends Activity {
     }
 
     public void drawState(Object... state) {
-
+        
     }
 
     public void endStep() {
