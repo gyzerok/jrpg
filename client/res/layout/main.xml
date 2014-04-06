@@ -2,107 +2,148 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-        >
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:text=""
-        android:layout_weight="1" />
+              android:layout_height="fill_parent">
+
+        <EditText android:id="@+id/nick"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter your name" />
 
 
-    <EditText android:id="@+id/nick"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:hint="Enter your name"
-        android:layout_weight="1" />
+        <Button
+            android:id="@+id/play_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="120dp"
+            android:layout_height="45dp"
+            android:text="Start" />
 
-    <Button
-        android:id="@+id/play_button"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="120dp"
-        android:layout_height="45dp"
-        android:text="Start"
-        android:layout_weight="1" />
     <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-        <TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_span="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_column="0"
+                android:text="playerName"
+                android:id="@+id/playerName" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:text="enemyName"
+                android:id="@+id/enemyName" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_span="2">
+
             <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
                 android:text="Head"
+                android:layout_weight="1"
                 android:id="@+id/playerHeadCheck"
                 android:visibility="visible"
-                android:longClickable="true"
-                android:gravity="left" />
+                android:layout_gravity="center" />
 
             <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
                 android:text="Head"
                 android:id="@+id/enemyHeadCheck"
-                android:layout_gravity="right"
+                android:gravity="right"
+                android:layout_column="1"
+                android:checked="false"
+                android:layout_gravity="center|right" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_span="2">
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_span="2">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Hands"
+                android:id="@+id/playerHandsCheck"
+                android:gravity="left"
+                android:layout_gravity="left" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hands"
+                android:id="@+id/enemyHandsCheck"
                 android:gravity="right" />
         </TableRow>
 
-        <TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_span="2">
+
             <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:text="Hands"
-                android:id="@+id/playerHandsCheck"
-                android:visibility="visible"
-                android:longClickable="true"
-                android:singleLine="false"
-                android:gravity="left" />
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:text="Hands"
-                android:id="@+id/enemyHandsCheck"
-                android:layout_gravity="right"
-                android:gravity="right" />
-        </TableRow>
-        <TableRow>
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Body"
                 android:id="@+id/playerBodyCheck"
                 android:visibility="visible"
                 android:longClickable="true"
                 android:gravity="left" />
+
             <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="Body"
                 android:id="@+id/enemyBodyCheck"
                 android:layout_gravity="right"
-                android:layout_weight="1"
                 android:gravity="right" />
+
         </TableRow>
-        <TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_span="2">
+
             <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Legs"
                 android:id="@+id/playerLegsCheck"
                 android:visibility="visible"
-                android:singleLine="false"
-                android:longClickable="true"
-                android:layout_weight="1"
                 android:gravity="left" />
 
             <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="Legs"
                 android:id="@+id/enemyLegsCheck"
                 android:layout_gravity="right"
-                android:singleLine="true"
                 android:gravity="right" />
         </TableRow>
     </TableLayout>
@@ -110,9 +151,10 @@
     <Button
         android:id="@+id/act_button"
         android:layout_gravity="center_horizontal"
-        android:layout_width="120dp"
-        android:layout_height="36dp"
-        android:text="Act" />
+        android:layout_width="101dp"
+        android:layout_height="wrap_content"
+        android:text="Act"
+        android:layout_column="2" />
 
 </LinearLayout>
 
