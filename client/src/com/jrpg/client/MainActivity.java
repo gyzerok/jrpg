@@ -95,7 +95,6 @@ public class MainActivity extends Activity {
             @Override
             public void onError(SocketIOException socketIOException) {
                 Log.i(TAG, "an Error occured " + socketIOException.getMessage());
-                //socketIOException.printStackTrace();
             }
 
             @Override
@@ -111,16 +110,31 @@ public class MainActivity extends Activity {
             @Override
             public void on(String event, IOAcknowledge ack, Object... args) {
                 Log.i(TAG, "Server triggered event '" + event + "'");
-                if (event == "new game")
+                if (event == "new game" || event == "next step")
                 {
-
+                    drawState(args);
                 }
                 else if (event == "end game")
                 {
-
+                    finish();
                 }
             }
         });
     }
 
+    public void drawState(Object... state) {
+
+    }
+
+    public void endStep() {
+        IOAcknowledge ack = new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                Log.i(TAG, "Acknowledge");
+            }
+        };
+
+        // TODO: Сюда надо будет хахуячить JSONObject
+        mServerSocket.emit("act", ack, null);
+    }
 }

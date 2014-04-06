@@ -9,4 +9,5 @@ var gameController = require('./controllers/GameController');
 module.exports = function (app) {
 
     app.io.route('find', gameController.find);
+    app.io.route('act', gameController.act);
 }
