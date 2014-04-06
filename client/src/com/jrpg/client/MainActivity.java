@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,9 +20,10 @@ import io.socket.SocketIOException;
 
 public class MainActivity extends Activity {
     private final String TAG = "JRPG";
-    private final String URL = "http://192.168.69.109:8080";
-    //private final String URL = "http://10.0.2.2:8080";
+    //private final String URL = "http://192.168.82.148:8080";
+    private final String URL = "http://10.0.2.2:8080";
     private SocketIO mServerSocket;
+    private Integer mGameId;
 
     private Button mPlayButton;
     private Button mActButton;
@@ -110,11 +112,11 @@ public class MainActivity extends Activity {
             @Override
             public void on(String event, IOAcknowledge ack, Object... args) {
                 Log.i(TAG, "Server triggered event '" + event + "'");
-                if (event == "new game" || event == "next step")
+                if (event.equals("new game") || event.equals("next step"))
                 {
-                    drawState(args);
+                    drawState((JSONObject)args[0]);
                 }
-                else if (event == "end game")
+                else if (event.equals("end game"))
                 {
                     finish();
                 }
@@ -122,8 +124,25 @@ public class MainActivity extends Activity {
         });
     }
 
-    public void drawState(Object... state) {
+    public void drawState(JSONObject json) {
+        try {
+            mGameId = json.getInt("id");
+            JSONArray players = json.getJSONArray("players");
+            for (int i = 0; i < players.length(); i++) {
+                JSONObject player = players.optJSONObject(i);
+                String nick = player.getString("nick");
+                if (nick.equals(mNick.getText())) {
 
+                }
+                else {
+
+                }
+            }
+        }
+        catch (JSONException e)
+        {
+            Log.e(TAG, e.getMessage());
+        }
     }
 
     public void endStep() {

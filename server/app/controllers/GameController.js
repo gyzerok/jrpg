@@ -23,6 +23,7 @@ module.exports = {
     },
 
     act: function (req) {
+        console.log(req.data);
         req.player.action = new Action(req.data.type, req.data.parts);
         gameRegistry[req.data.id].incSteps();
     }
