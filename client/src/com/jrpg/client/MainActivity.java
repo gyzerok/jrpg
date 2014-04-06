@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
 import io.socket.SocketIO;
@@ -17,6 +18,9 @@ import java.net.MalformedURLException;
 public class MainActivity extends Activity {
     private final String TAG = "JRPG";
     private SocketIO mServerSocket;
+    private EditText mNick;
+
+    private Button mPlayButton;
     /**
      * Called when the activity is first created.
      */
@@ -25,9 +29,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        Button playButton = (Button) findViewById(R.id.play_button);
+        mPlayButton = (Button) findViewById(R.id.play_button);
+        mNick = (EditText) findViewById(R.id.nick);
 
-        playButton.setOnClickListener(new View.OnClickListener() {
+        mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 IOAcknowledge ack = new IOAcknowledge() {
@@ -36,7 +41,7 @@ public class MainActivity extends Activity {
                         Log.i(TAG, "Acknowledge");
                     }
                 };
-                mServerSocket.emit("find", ack, "gyzerok");
+                mServerSocket.emit("find", ack, mNick.getText());
             }
         });
     }

@@ -13,11 +13,9 @@ module.exports = {
 
     find: function (req) {
 
-        var player = new Player(req, req.data.nick);
+        var player = new Player(req, req.data);
         playersQueue.push(player, function (player1, player2) {
-
             var game = new Game(player1, player2);
-
         });
     },
 
