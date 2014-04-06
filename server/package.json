@@ -1,0 +1,13 @@
+{
+  "name": "jrpg",
+  "version": "0.0.0",
+  "description": "jrpg",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "make test"
+  },
+  "dependencies": {
+    "express.io": "^1.1.13"
+  }
+}
