@@ -6,7 +6,7 @@
 
 module.exports = function (app) {
 
-    app.set('port', 3333);
+    app.set('port', 8080);
     /*app.configure('development', function () {
 
     });*/
