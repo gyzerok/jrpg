@@ -6,13 +6,22 @@
 
 module.exports = function (app) {
 
-    app.io.route('/', function (req) {
+    /*app.get('/', function (req, res) {
         console.log(req.body);
+        res.send('It works!');
+    });*/
+
+    app.io.route('*', function (req) {
+        console.log('here');
+        req.io.emit('hello', {
+            message: 'Hello, client!'
+        });
     });
 
     app.io.route('test', function (req) {
+        console.log('test');
         req.io.emit('hello', {
-            message: 'Hello, client!'
+            message: 'Test client!'
         });
     });
 }

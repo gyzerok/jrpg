@@ -2,19 +2,19 @@ package com.jrpg.client;
 
 import android.app.Activity;
 import android.os.Bundle;
-
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
+import io.socket.IOAcknowledge;
+import io.socket.IOCallback;
+import io.socket.SocketIO;
+import io.socket.SocketIOException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.MalformedURLException;
 
 public class MainActivity extends Activity {
     private final String TAG = "JRPG";
-    private WebSocketClient mWebSocketClient;
+    private SocketIO mServerSocket;
     /**
      * Called when the activity is first created.
      */
@@ -28,54 +28,61 @@ public class MainActivity extends Activity {
     public void onResume() {
         super.onResume();
 
-        Log.i(TAG, "Connecting to server...");
         connectWebSocket();
     }
 
     private void connectWebSocket() {
-        URI uri;
         try {
-            uri = new URI("ws://127.0.0.1:8080");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return;
+            mServerSocket = new SocketIO("http://10.0.2.2:8080/");
+        }
+        catch (MalformedURLException e) {
+            Log.e(TAG, e.getMessage());
         }
 
-        mWebSocketClient = new WebSocketClient(uri) {
+        mServerSocket.connect(new IOCallback() {
             @Override
-            public void onOpen(ServerHandshake serverHandshake) {
-                Log.i(TAG, "Opened");
-                mWebSocketClient.send("Hello from client");
+            public void onMessage(JSONObject json, IOAcknowledge ack) {
+                try {
+                    Log.i(TAG, "Server said:" + json.toString(2));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
-            public void onMessage(String s) {
-                final String message = s;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        TextView textView = (TextView)findViewById(R.id.text);
-                        textView.setText(textView.getText() + "\n" + message);
-                    }
-                });
+            public void onMessage(String data, IOAcknowledge ack) {
+                Log.i(TAG, "Server said: " + data);
             }
 
             @Override
-            public void onClose(int i, String s, boolean b) {
-                Log.i(TAG, "Closed " + s);
+            public void onError(SocketIOException socketIOException) {
+                Log.i(TAG, "an Error occured " + socketIOException.getMessage());
+                //socketIOException.printStackTrace();
             }
 
             @Override
-            public void onError(Exception e) {
-                Log.i(TAG, "Error " + e.getMessage());
+            public void onDisconnect() {
+                Log.i(TAG, "Connection terminated.");
+            }
+
+            @Override
+            public void onConnect() {
+                Log.i(TAG, "Connection established");
+            }
+
+            @Override
+            public void on(String event, IOAcknowledge ack, Object... args) {
+                Log.i(TAG, "Server triggered event '" + event + "'");
+            }
+        });
+
+        IOAcknowledge ack = new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                Log.i(TAG, "Acknowledge");
             }
         };
-        mWebSocketClient.connect();
+        mServerSocket.emit("test", ack, "text");
     }
 
-    public void sendMessage(View view) {
-        //EditText editText = (EditText)findViewById(R.id.message);
-        mWebSocketClient.send("");
-        //editText.setText("");
-    }
 }
