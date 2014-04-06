@@ -17,10 +17,12 @@ import java.net.MalformedURLException;
 
 public class MainActivity extends Activity {
     private final String TAG = "JRPG";
+    private final String URL = "http://192.168.69.109:8080";
+    //private final String URL = "http://10.0.2.2:8080";
     private SocketIO mServerSocket;
-    private EditText mNick;
 
     private Button mPlayButton;
+    private EditText mNick;
     /**
      * Called when the activity is first created.
      */
@@ -55,7 +57,7 @@ public class MainActivity extends Activity {
 
     private void connectWebSocket() {
         try {
-            mServerSocket = new SocketIO("http://192.168.69.109:8080/");
+            mServerSocket = new SocketIO(URL);
         }
         catch (MalformedURLException e) {
             Log.e(TAG, e.getMessage());

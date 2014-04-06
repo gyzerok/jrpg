@@ -14,7 +14,7 @@ module.exports = function (player1, player2) {
 
     this.start = function () {
         for (var i = 0; i < 2; i++) {
-            this.players[i].emit('new game', this.state);
+            this.players[i].req.io.emit('new game', this.state);
         }
     }
 
