@@ -8,16 +8,10 @@ var express = require('express.io');
 var app = express();
 app.http().io();
 
+// Setting up configuration
 require('./config/config')(app);
 
-app.get('/', function (req, res) {
-    res.send('It works!');
-});
-
-app.io.route('test', function (req) {
-    req.io.emit('hello', {
-        message: 'Hello, client!'
-    });
-});
+// Setting up routes
+require('./routes')(app);
 
 module.exports = app;
