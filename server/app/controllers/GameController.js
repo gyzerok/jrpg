@@ -6,6 +6,7 @@
 
 var Player = require('../models/Player');
 var Game = require('../models/Game');
+var Action = require('../models/Action');
 var gameRegistry = require('../models/GameRegistry');
 var playersQueue = require('../models/PlayersQueue');
 
@@ -16,15 +17,13 @@ module.exports = {
         var player = new Player(req, req.data);
         playersQueue.push(player, function (player1, player2) {
             var game = new Game(player1, player2);
+            gameRegistry[game.id] = game;
             game.start();
         });
     },
 
-    hit: function (req) {
-
-    },
-
-    def: function (req) {
-
+    act: function (req) {
+        req.player.action = new Action(req.data.type, req.data.parts);
+        gameRegistry[req.data.id].incSteps();
     }
 }

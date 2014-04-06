@@ -4,4 +4,4 @@
  * Time: 4:17 PM
  */
 
-module.exports = [];
+module.exports = {};

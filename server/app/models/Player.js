@@ -16,9 +16,11 @@ module.exports = function Player(req, nick) {
     this.PART_LEGS = 4;
 
     this.req = req;
+    req.player = this;
     this.nick = nick;
     this.hp = 100;
     this.dmg = 10;
+    this.action = null;
     this.position = this.POSITION_UNKNOWN;
 
     this.hit = function (dmg) {
