@@ -6,14 +6,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import io.socket.IOAcknowledge;
-import io.socket.IOCallback;
-import io.socket.SocketIO;
-import io.socket.SocketIOException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
+
+import io.socket.IOAcknowledge;
+import io.socket.IOCallback;
+import io.socket.SocketIO;
+import io.socket.SocketIOException;
 
 public class MainActivity extends Activity {
     private final String TAG = "JRPG";
@@ -22,6 +24,7 @@ public class MainActivity extends Activity {
     private SocketIO mServerSocket;
 
     private Button mPlayButton;
+    private Button mActButton;
     private EditText mNick;
     /**
      * Called when the activity is first created.
@@ -32,6 +35,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
 
         mPlayButton = (Button) findViewById(R.id.play_button);
+        mActButton = (Button) findViewById(R.id.act_button);
+        mActButton.setVisibility(0);
         mNick = (EditText) findViewById(R.id.nick);
 
         mPlayButton.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +49,15 @@ public class MainActivity extends Activity {
                     }
                 };
                 mServerSocket.emit("find", ack, mNick.getText());
+                mActButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mActButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPlayButton.setVisibility(View.GONE);
+                mNick.setVisibility(View.GONE);
             }
         });
     }
@@ -97,6 +111,14 @@ public class MainActivity extends Activity {
             @Override
             public void on(String event, IOAcknowledge ack, Object... args) {
                 Log.i(TAG, "Server triggered event '" + event + "'");
+                if (event == "new game")
+                {
+
+                }
+                else if (event == "end game")
+                {
+
+                }
             }
         });
     }

@@ -6,16 +6,17 @@
         >
     <TextView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text=""
-            />
+        android:layout_weight="1" />
 
 
     <EditText android:id="@+id/nick"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Enter your name" />
+        android:layout_height="0dp"
+        android:hint="Enter your name"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/play_button"
@@ -23,6 +24,95 @@
         android:layout_width="120dp"
         android:layout_height="45dp"
         android:text="Start"
-        android:onClick=""/>
+        android:layout_weight="1" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Head"
+                android:id="@+id/playerHeadCheck"
+                android:visibility="visible"
+                android:longClickable="true"
+                android:gravity="left" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Head"
+                android:id="@+id/enemyHeadCheck"
+                android:layout_gravity="right"
+                android:gravity="right" />
+        </TableRow>
+
+        <TableRow>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Hands"
+                android:id="@+id/playerHandsCheck"
+                android:visibility="visible"
+                android:longClickable="true"
+                android:singleLine="false"
+                android:gravity="left" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Hands"
+                android:id="@+id/enemyHandsCheck"
+                android:layout_gravity="right"
+                android:gravity="right" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Body"
+                android:id="@+id/playerBodyCheck"
+                android:visibility="visible"
+                android:longClickable="true"
+                android:gravity="left" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Body"
+                android:id="@+id/enemyBodyCheck"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:gravity="right" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Legs"
+                android:id="@+id/playerLegsCheck"
+                android:visibility="visible"
+                android:singleLine="false"
+                android:longClickable="true"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Legs"
+                android:id="@+id/enemyLegsCheck"
+                android:layout_gravity="right"
+                android:singleLine="true"
+                android:gravity="right" />
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/act_button"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="120dp"
+        android:layout_height="36dp"
+        android:text="Act" />
+
 </LinearLayout>
 
