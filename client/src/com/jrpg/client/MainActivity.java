@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,12 +21,19 @@ import io.socket.SocketIOException;
 
 public class MainActivity extends Activity {
     private final String TAG = "JRPG";
-    private final String URL = "http://192.168.69.109:8080";
-    //private final String URL = "http://10.0.2.2:8080";
+    //private final String URL = "http://192.168.82.148:8080";
+    private final String URL = "http://10.0.2.2:8080";
     private SocketIO mServerSocket;
+    private Integer mGameId;
 
     private Button mPlayButton;
     private Button mActButton;
+
+    private TextView mPlayerName;
+    private TextView mEnemyName;
+    private TextView mPlayerHp;
+    private TextView mEnemyHp;
+
     private EditText mNick;
     /**
      * Called when the activity is first created.
@@ -36,6 +45,12 @@ public class MainActivity extends Activity {
 
         mPlayButton = (Button) findViewById(R.id.play_button);
         mActButton = (Button) findViewById(R.id.act_button);
+
+        mPlayerName = (TextView) findViewById(R.id.playerName);
+        mEnemyName = (TextView) findViewById(R.id.enemyName);
+        mPlayerHp = (TextView) findViewById(R.id.playerHp);
+        mEnemyHp = (TextView) findViewById(R.id.enemyHp);
+
         mActButton.setVisibility(0);
         mNick = (EditText) findViewById(R.id.nick);
 
@@ -63,58 +78,70 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
 
         connectWebSocket();
     }
 
-    private void connectWebSocket() {
-        try {
+    private void connectWebSocket()
+    {
+        try
+        {
             mServerSocket = new SocketIO(URL);
         }
-        catch (MalformedURLException e) {
+        catch (MalformedURLException e)
+        {
             Log.e(TAG, e.getMessage());
         }
 
         mServerSocket.connect(new IOCallback() {
             @Override
-            public void onMessage(JSONObject json, IOAcknowledge ack) {
-                try {
+            public void onMessage(JSONObject json, IOAcknowledge ack)
+            {
+                try
+                {
                     Log.i(TAG, "Server said:" + json.toString(2));
-                } catch (JSONException e) {
+                } catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
             }
 
             @Override
-            public void onMessage(String data, IOAcknowledge ack) {
+            public void onMessage(String data, IOAcknowledge ack)
+            {
                 Log.i(TAG, "Server said: " + data);
             }
 
             @Override
-            public void onError(SocketIOException socketIOException) {
+            public void onError(SocketIOException socketIOException)
+            {
                 Log.i(TAG, "an Error occured " + socketIOException.getMessage());
             }
 
             @Override
-            public void onDisconnect() {
+            public void onDisconnect()
+            {
                 Log.i(TAG, "Connection terminated.");
             }
 
             @Override
-            public void onConnect() {
+            public void onConnect()
+            {
                 Log.i(TAG, "Connection established");
             }
 
             @Override
-            public void on(String event, IOAcknowledge ack, Object... args) {
+            public void on(String event, IOAcknowledge ack, Object... args)
+            {
                 Log.i(TAG, "Server triggered event '" + event + "'");
-                if (event == "new game" || event == "next step")
+                if (event.equals("new game") || event.equals("next step"))
                 {
-                    drawState(args);
+                    drawState((JSONObject)args[0]);
                 }
-                else if (event == "end game")
+                else if (event.equals("end game"))
                 {
                     finish();
                 }
@@ -122,14 +149,43 @@ public class MainActivity extends Activity {
         });
     }
 
-    public void drawState(Object... state) {
-        
+    public void drawState(JSONObject json)
+    {
+        try
+        {
+            mGameId = json.getInt("id");
+            JSONArray players = json.getJSONArray("players");
+            for (int i = 0; i < players.length(); i++)
+            {
+                JSONObject player = players.optJSONObject(i);
+                String nick = player.getString("nick");
+                String playerHp = player.getString("hp");
+                if (nick.equals(mNick.getText()))
+                {
+                    mPlayerName.setText(nick);
+                    mPlayerHp.setText("Your HP: "+playerHp);
+                }
+                else
+                {
+                    mEnemyName.setText(nick);
+                    mEnemyHp.setText("Enemy HP:"+playerHp);
+                }
+            }
+        }
+        catch (JSONException e)
+        {
+            Log.e(TAG, e.getMessage());
+        }
+
     }
 
-    public void endStep() {
-        IOAcknowledge ack = new IOAcknowledge() {
+    public void endStep()
+    {
+        IOAcknowledge ack = new IOAcknowledge()
+        {
             @Override
-            public void ack(Object... objects) {
+            public void ack(Object... objects)
+            {
                 Log.i(TAG, "Acknowledge");
             }
         };

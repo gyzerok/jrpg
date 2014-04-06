@@ -49,6 +49,28 @@
             android:layout_height="fill_parent"
             android:layout_span="2">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_column="0"
+                android:text="Your hp:"
+                android:id="@+id/playerHp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:text="Enemy hp:"
+                android:id="@+id/enemyHp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_span="2">
+
             <CheckBox
                 android:layout_width="wrap_content"
                 android:text="Head"
