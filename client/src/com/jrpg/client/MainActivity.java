@@ -3,6 +3,8 @@ package com.jrpg.client;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
 import io.socket.SocketIO;
@@ -22,6 +24,21 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        Button playButton = (Button) findViewById(R.id.play_button);
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IOAcknowledge ack = new IOAcknowledge() {
+                    @Override
+                    public void ack(Object... objects) {
+                        Log.i(TAG, "Acknowledge");
+                    }
+                };
+                mServerSocket.emit("find", ack, "gyzerok");
+            }
+        });
     }
 
     @Override
@@ -75,14 +92,6 @@ public class MainActivity extends Activity {
                 Log.i(TAG, "Server triggered event '" + event + "'");
             }
         });
-
-        IOAcknowledge ack = new IOAcknowledge() {
-            @Override
-            public void ack(Object... objects) {
-                Log.i(TAG, "Acknowledge");
-            }
-        };
-        mServerSocket.emit("test", ack, "text");
     }
 
 }
