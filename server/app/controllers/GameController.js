@@ -12,10 +12,11 @@ var playersQueue = require('../models/PlayersQueue');
 module.exports = {
 
     find: function (req) {
-
+        console.log(req.data);
         var player = new Player(req, req.data);
         playersQueue.push(player, function (player1, player2) {
             var game = new Game(player1, player2);
+            game.start();
         });
     },
 
