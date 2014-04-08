@@ -4,10 +4,10 @@
  * Time: 1:05 PM
  */
 
-var gameController = require('./controllers/GameController');
+var userController = require('./controllers/UserController');
 
 module.exports = function (app) {
 
-    app.io.route('find', gameController.find);
-    app.io.route('act', gameController.act);
+    app.io.route('find-game', userController.findGame);
+    app.io.route('cancel-find-game', userController.cancelFindGame);
 }
