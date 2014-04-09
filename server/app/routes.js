@@ -5,9 +5,9 @@ var GameController = require('./controllers/GameController');
 
 module.exports = function (app) {
 
-    var userController = new UserController();
-    var gameController = new GameController();
-
-    app.io.route('find-game', userController.findGame);
-    app.io.route('cancel-find-game', userController.cancelFindGame);
-}
+    app.io.route('find-game', UserController.findGame);
+    app.io.route('cancel-find-game', UserController.cancelFindGame);
+    app.io.route('test', function (req) {
+        console.log('New client connected');
+    });
+};

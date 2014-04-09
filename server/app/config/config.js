@@ -1,8 +1,4 @@
-/**
- * @author: gyzerok@gmail.com
- * Date: 4/6/14
- * Time: 12:41 PM
- */
+'use strict';
 
 module.exports = function (app) {
 
@@ -14,4 +10,4 @@ module.exports = function (app) {
     /*app.configure('development', function () {
 
     });*/
-}
+};

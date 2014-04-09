@@ -1,8 +1,4 @@
-/**
- * @author: gyzerok@gmail.com
- * Date: 4/6/14
- * Time: 12:31 PM
- */
+'use strict';
 
 var app = require('./app/app');
 

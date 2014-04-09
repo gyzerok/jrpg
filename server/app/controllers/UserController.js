@@ -1,10 +1,12 @@
 'use strict';
 
-var util = require('util');
-var _ = require('underscore');
-var events = require('events');
+module.exports = {
+    vent: null,
 
-var UserControllerMethods = {
+    init: function (vent) {
+        this.vent = vent;
+
+    },
 
     auth: function (req, next) {
         var User = require('../models/User');
@@ -18,7 +20,7 @@ var UserControllerMethods = {
     },
 
     findGame: function (req) {
-        this.emit('new-user', req.user);
+        this.vent.emit('new-user', req.user);
         req.io.respond({
             success: true
         });
@@ -30,12 +32,3 @@ var UserControllerMethods = {
         });
     }
 };
-
-var UserController = function () {
-    events.EventEmitter.call(this);
-
-    _.extend(UserController, UserControllerMethods);
-};
-util.inherits(UserController, events.EventEmitter);
-
-module.exports = UserController;
