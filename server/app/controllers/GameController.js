@@ -1,30 +1,23 @@
-/**
- * @author: gyzerok@gmail.com
- * Date: 4/6/14
- * Time: 1:03 PM
- */
+'use strict';
 
-var Player = require('../models/Player');
-var Game = require('../models/Game');
-var Action = require('../models/Action');
-var gameRegistry = require('../models/GameRegistry');
-var playersQueue = require('../models/PlayersQueue');
+var util = require('util');
+var _ = require('underscore');
+var events = require('events');
 
-module.exports = {
+var GameControllerMethods = {
 
-    find: function (req) {
-        console.log(req.data);
-        var player = new Player(req, req.data);
-        playersQueue.push(player, function (player1, player2) {
-            var game = new Game(player1, player2);
-            gameRegistry[game.id] = game;
-            game.start();
-        });
-    },
-
-    act: function (req) {
-        console.log(req.data);
-        req.player.action = new Action(req.data.type, req.data.parts);
-        gameRegistry[req.data.id].incSteps();
+    create: function (participants) {
+        console.log('Found pair: ', participants[0].username + '&', participants[1].username);
     }
-}
+};
+
+var GameController = function () {
+    events.EventEmitter.call(this);
+
+    _.extend(this, GameControllerMethods);
+
+    this.on('create-new-game', this.create);
+};
+util.inherits(GameController, events.EventEmitter);
+
+module.exports = GameController;

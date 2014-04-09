@@ -1,12 +1,12 @@
-/**
- * @author: gyzerok@gmail.com
- * Date: 4/6/14
- * Time: 1:05 PM
- */
+'use strict';
 
-var userController = require('./controllers/UserController');
+var UserController = require('./controllers/UserController');
+var GameController = require('./controllers/GameController');
 
 module.exports = function (app) {
+
+    var userController = new UserController();
+    var gameController = new GameController();
 
     app.io.route('find-game', userController.findGame);
     app.io.route('cancel-find-game', userController.cancelFindGame);
