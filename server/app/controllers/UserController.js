@@ -5,18 +5,6 @@ module.exports = {
 
     init: function (vent) {
         this.vent = vent;
-
-    },
-
-    auth: function (req, next) {
-        var User = require('../models/User');
-
-        User.findOne({authCode: req.data.authCode}, function (err, user) {
-            if (err) return next(err);
-            //if (!user) return next();
-
-            req.user = user;
-        });
     },
 
     findGame: function (req) {
