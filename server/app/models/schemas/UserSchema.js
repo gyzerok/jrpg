@@ -1,8 +1,4 @@
-/**
- * @author: gyzerok@gmail.com
- * Date: 4/9/14
- * Time: 8:30 PM
- */
+'use strict';
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
@@ -13,9 +9,8 @@ var userSchema = Schema({
         unique: true,
         trim: true
     },
-    authCode: {
+    password: {
         type: String,
-        unique: true,
         require: true
     },
     rating: {
@@ -25,7 +20,8 @@ var userSchema = Schema({
     },
     regDate: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now()
     }
 });
 

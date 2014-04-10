@@ -9,7 +9,11 @@ module.exports = {
         this.vent.on('create-new-game', this.create);
     },
 
-    create: function (participants) {
-        console.log('Found pair: ', participants[0].username + '&', participants[1].username);
+    create: function (users) {
+        var reqs = require('../reqs');
+
+        console.log('Found pair: ', users[0].username + '&', users[1].username);
+        reqs.get(users[0]).io.emit('new-game', {enemy: user[1].username});
+        reqs.get(users[1]).io.emit('new-game', {enemy: user[0].username});
     }
 };

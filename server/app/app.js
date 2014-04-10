@@ -2,7 +2,7 @@
 
 var express = require('express.io');
 var app = express();
-app.io();
+app.http().io();
 
 // Setting up configuration
 require('./config/config')(app);

@@ -10,13 +10,13 @@ module.exports = {
     findGame: function (req) {
         this.vent.emit('new-user', req.user);
         req.io.respond({
-            success: true
+            error: 0
         });
     },
 
     cancelFindGame: function (req) {
         req.io.respond({
-            success: true
+            error: 0
         });
     }
 };
