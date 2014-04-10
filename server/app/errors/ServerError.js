@@ -1,6 +1,6 @@
 'use strict';
 
 module.exports = function ServerError(args) {
-    this.errno = args.errno;
+    this.code = args.code;
     this.message = args.message;
 };
