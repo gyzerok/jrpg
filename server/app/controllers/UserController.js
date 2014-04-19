@@ -1,16 +1,22 @@
 'use strict';
 
-module.exports = {
+var UserController = {
     vent: null,
 
     init: function (vent) {
-        this.vent = vent;
+        UserController.vent = vent;
     },
 
     findGame: function (req) {
-        this.vent.emit('new-user', req.user);
+        if (req.user) {
+            req.io.respond({
+                username: req.username
+            });
+            return;
+        }
+        //UserController.vent.emit('new-user', req.user);
         req.io.respond({
-            error: 0
+            error: 1
         });
     },
 
@@ -20,3 +26,5 @@ module.exports = {
         });
     }
 };
+
+module.exports = UserController;

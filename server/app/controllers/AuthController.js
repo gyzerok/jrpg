@@ -1,16 +1,18 @@
 'use strict';
 
 module.exports = {
-    auth: function (req) {
-        var reqs = require('../reqs');
+    login: function (req, res) {
+        var app = require('../app');
+        var jwt = require('jsonwebtoken');
         var User = require('../models/User');
 
-        User.findOne({username: req.data.username, password: req.data.password}, function (err, user) {
-            if (err || !user) return req.io.respond({error: 1});
+        User.findOne({username: req.body.username, password: req.body.password}, function (err, user) {
+            if (err) return res.send(500);
+            if (!user) return res.send(404);
 
-            reqs.set(user.id, req);
-            req.user = user.user;
-            req.io.respond({error: 0});
+            var token = jwt.sign(user, app.get('secret'), {expiresInMinutes: 60 * 5});
+
+            res.json({uid: user.id, token: token});
         });
     }
-}
+};

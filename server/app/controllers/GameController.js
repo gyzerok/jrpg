@@ -1,12 +1,12 @@
 'use strict';
 
-module.exports = {
+var GameController = {
     vent: null,
 
     init: function (vent) {
-        this.vent = vent;
+        GameController.vent = vent;
 
-        this.vent.on('create-new-game', this.create);
+        GameController.vent.on('create-new-game', GameController.create);
     },
 
     create: function (users) {
@@ -17,3 +17,5 @@ module.exports = {
         reqs.get(users[1]).io.emit('new-game', {enemy: user[0].username});
     }
 };
+
+module.exports = GameController;

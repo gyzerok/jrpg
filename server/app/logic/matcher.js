@@ -4,7 +4,7 @@ function comparer(a, b) {
     return a.range - b.range;
 }
 
-module.exports = {
+var matcher = {
     vent: null,
     baseSearchRange: null,
     incrementSearchRange: null,
@@ -14,53 +14,54 @@ module.exports = {
     queue: [],
 
     init: function (app, vent) {
-        this.baseSearchRange = app.get('baseSearchRange');
-        this.incrementSearchRange = app.get('incrementSearchRange');
-        this.matchTryInterval = app.get('matchTryInterval');
-        this.vent = vent;
+        matcher.baseSearchRange = app.get('baseSearchRange');
+        matcher.incrementSearchRange = app.get('incrementSearchRange');
+        matcher.matchTryInterval = app.get('matchTryInterval');
+        matcher.vent = vent;
 
-        this.vent.on('new-user', this.onNewUser);
+        matcher.vent.on('new-user', matcher.onNewUser);
     },
 
     onNewUser: function (user) {
-        this.queue.push({user: user, range: this.baseSearchRange});
-        this.tryMatch()
+        matcher.queue.push({user: user, range: matcher.baseSearchRange});
+        matcher.tryMatch()
     },
 
     start: function () {
-        var self = this;
-        this.tryInterval = setInterval(self.tryMatch, self.matchTryInterval);
+        matcher.tryInterval = setInterval(matcher.tryMatch, matcher.matchTryInterval);
     },
 
     stop: function () {
-        if (this.tryInterval) clearInterval(this.tryInterval);
+        if (matcher.tryInterval) clearInterval(matcher.tryInterval);
     },
 
     tryMatch: function () {
-        if (this.queue.length < 2) return;
+        if (matcher.queue.length < 2) return;
 
-        this.queue.sort(comparer);
+        matcher.queue.sort(comparer);
 
-        for (var i = 0; i < this.queue.length - 1; i++) {
-            var checkingObj = this.queue[i];
-            for (var j = i; j < this.queue.length; j++) {
-                var possiblePairObj = this.queue[j];
+        for (var i = 0; i < matcher.queue.length - 1; i++) {
+            var checkingObj = matcher.queue[i];
+            for (var j = i; j < matcher.queue.length; j++) {
+                var possiblePairObj = matcher.queue[j];
 
                 // Нашлась ли пара?
                 var acceptablePair = (checkingObj.user.rating + checkingObj.range) >= possiblePairObj.user.rating &&
                     (possiblePairObj.user.rating + possiblePairObj.range) <= checkingObj.user.rating;
 
                 if (acceptablePair) {
-                    this.vent.emit('create-new-game', [checkingObj.user, possiblePairObj.user]);
+                    matcher.vent.emit('create-new-game', [checkingObj.user, possiblePairObj.user]);
                 }
 
-                this.queue.splice(i, 1);
-                this.queue.splice(j, 1);
+                matcher.queue.splice(i, 1);
+                matcher.queue.splice(j, 1);
             }
             // Не нашли пару. Увеличиваем границу
-            if (this.queue.indexOf(checkingObj) != -1) {
-                this.queue[i].range += this.incrementSearchRange;
+            if (matcher.queue.indexOf(checkingObj) != -1) {
+                matcher.queue[i].range += matcher.incrementSearchRange;
             }
         }
     }
 };
+
+module.exports = matcher;
